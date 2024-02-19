@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.Repository.ProductoRepository;
 import com.example.entities.Producto;
+import com.example.exception.ResourceNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,6 +40,17 @@ public class ProductoController {
     return new ResponseEntity<>(productos, HttpStatus.OK);
   }
 
+//   if (title == null)
+//   tutorialRepository.findAll().forEach(tutorials::add);
+// else
+//   tutorialRepository.findByTitleContaining(title).forEach(tutorials::add);
+
+// if (tutorials.isEmpty()) {
+//   return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+// }
+
+// return new ResponseEntity<>(tutorials, HttpStatus.OK);
+// }
   @GetMapping("/productos/{id}")
   public ResponseEntity<Producto> getProductoById(@PathVariable("id") int id) {
     Producto producto = productoRepository.findById(id)
@@ -49,7 +61,8 @@ public class ProductoController {
 
   @PostMapping("/productos")
   public ResponseEntity<Producto> createTutorial(@RequestBody Producto producto) {
-     Producto _producto = productoRepository.save(new Producto(producto.getTitle(), producto.getDescription(), true));
+    Producto _producto = productoRepository.save(producto);
+    //  Producto _producto = productoRepository.save(new Producto(producto.getTitle(), producto.getDescription(), true));
     return new ResponseEntity<>(_producto, HttpStatus.CREATED);
   }
 

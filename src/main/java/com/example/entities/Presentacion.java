@@ -2,7 +2,7 @@ package com.example.entities;
 
 import java.io.Serializable;
 import java.util.List;
-
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -46,7 +46,15 @@ public class Presentacion implements Serializable{
           CascadeType.MERGE
       },mappedBy = "presentaciones")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private List<Producto> productos;
+    private Set<Producto> productos;
 
+    public Set<Producto> getProductos() {
+        return productos;
+      }
+    
+      public void setProductos(Set<Producto> productos) {
+        this.productos = productos;
+      }  
+      
     
 }

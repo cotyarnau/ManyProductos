@@ -2,6 +2,7 @@ package com.example.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,7 +36,6 @@ import lombok.ToString;
 @Table(name = "productos")
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
@@ -60,6 +60,26 @@ public class Producto implements Serializable {
     @ManyToMany
     @JoinTable(name = "producto_presentacion", joinColumns = @JoinColumn(name = "producto_id"), inverseJoinColumns = @JoinColumn(name = "presentacion_id"))
     @JsonIgnore
-    private List<Presentacion> presentaciones;
+    private Set<Presentacion> presentaciones;
 
-}
+
+    public void addPresentacion(Presentacion presentacion) {
+        this.presentaciones.add(presentacion);
+        presentacion.getProductos().add(this);
+      }
+    
+      public void removePresentacion(int presentacionId) {
+        Presentacion presentacion = this.presentaciones.stream().filter(t -> t.getId() == presentacionId).findFirst().orElse(null);
+        if (presentacion != null) {
+          this.presentaciones.remove(presentacion);
+          presentacion.getProductos().remove(this);
+        }
+      }
+    
+      @Override
+      public String toString() {
+        return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
+      }
+    
+    }
+
