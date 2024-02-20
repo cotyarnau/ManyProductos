@@ -43,12 +43,12 @@ public class PresentacionController {
   }
   
   @GetMapping("/productos/{productoId}/presentaciones")
-  public ResponseEntity<Set<Presentacion>> getAllPresentacionesByProductosId(@PathVariable(value = "productoId") int productoId) {
+  public ResponseEntity<List<Presentacion>> getAllPresentacionesByProductosId(@PathVariable(value = "productoId") int productoId) {
     if (!productoRepository.existsById(productoId)) {
       throw new ResourceNotFoundException("Not found Producto with id = " + productoId);
     }
 
-    Set<Presentacion> presentaciones = presentacionRepository.findPresentacionesByProductosId(productoId);
+    List<Presentacion> presentaciones = presentacionRepository.findPresentacionesByProductosId(productoId);
     return new ResponseEntity<>(presentaciones, HttpStatus.OK);
   }
 

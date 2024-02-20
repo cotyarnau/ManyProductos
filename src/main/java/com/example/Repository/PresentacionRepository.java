@@ -1,5 +1,6 @@
 package com.example.Repository;
  
+
 import java.util.List;
 import java.util.Set;
 
@@ -10,5 +11,6 @@ import com.example.entities.Presentacion;
  
 public interface PresentacionRepository extends JpaRepository<Presentacion, Integer>{
  
-    Set<Presentacion> findPresentacionesByProductosId(int productoId);
+    
+    List<Presentacion> findPresentacionesByProductosId(int productoId);
 }

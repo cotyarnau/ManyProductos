@@ -31,7 +31,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "productos")
@@ -42,45 +41,47 @@ import lombok.ToString;
 @Builder
 public class Producto implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-    @Column(name = "title")
-    private String title;
+  @Column(name = "title")
+  private String title;
 
-    @Column(name = "description")
-    private String description;
+  @Column(name = "description")
+  private String description;
 
-    @Column(name = "published")
-    private boolean published;
+  @Column(name = "published")
+  private boolean published;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   @JoinTable(name = "producto_presentacion", joinColumns = { @JoinColumn(name = "producto_id") }, inverseJoinColumns = {
       @JoinColumn(name = "presentacion_id") })
-      @Builder.Default
+  @JsonIgnore
+  @Builder.Default
   private Set<Presentacion> presentaciones = new HashSet<>();
+  // el builder.default lo tengo que poner porque enrealidad el builder ya me
+  // inicializaba el set , lista o mapa
 
+  public void addPresentacion(Presentacion presentacion) {
+    this.presentaciones.add(presentacion);
+    presentacion.getProductos().add(this);
+  }
 
-    public void addPresentacion(Presentacion presentacion) {
-        this.presentaciones.add(presentacion);
-        presentacion.getProductos().add(this);
-      }
-    
-      public void removePresentacion(int presentacionId) {
-        Presentacion presentacion = this.presentaciones.stream().filter(t -> t.getId() == presentacionId).findFirst().orElse(null);
-        if (presentacion != null) {
-          this.presentaciones.remove(presentacion);
-          presentacion.getProductos().remove(this);
-        }
-      }
-    
-      @Override
-      public String toString() {
-        return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
-      }
-    
+  public void removePresentacion(int presentacionId) {
+    Presentacion presentacion = this.presentaciones.stream().filter(t -> t.getId() == presentacionId).findFirst()
+        .orElse(null);
+    if (presentacion != null) {
+      this.presentaciones.remove(presentacion);
+      presentacion.getProductos().remove(this);
     }
+  }
 
+  @Override
+  public String toString() {
+    return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
+  }
+
+}

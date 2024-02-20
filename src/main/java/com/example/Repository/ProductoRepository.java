@@ -19,6 +19,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer>{
 
 
 
+    
      List<Producto> findProductosByPresentacionesId(int presentacionId);
 
      List<Producto> findByPublished(boolean b);

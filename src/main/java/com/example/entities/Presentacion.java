@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -45,6 +46,7 @@ public class Presentacion implements Serializable{
           CascadeType.MERGE
       },mappedBy = "presentaciones")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @Builder.Default
     private Set<Producto> productos = new HashSet<>();
 
     public Set<Producto> getProductos() {
@@ -55,5 +57,6 @@ public class Presentacion implements Serializable{
         this.productos = productos;
       }  
       
-    
+      
+ 
 }
