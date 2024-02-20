@@ -45,8 +45,8 @@ public class Presentacion implements Serializable{
           CascadeType.PERSIST,
           CascadeType.MERGE
       },mappedBy = "presentaciones")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @Builder.Default
+      @JsonIgnore
+      @Builder.Default
     private Set<Producto> productos = new HashSet<>();
 
     public Set<Producto> getProductos() {

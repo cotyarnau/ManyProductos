@@ -59,7 +59,6 @@ public class Producto implements Serializable {
   @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
   @JoinTable(name = "producto_presentacion", joinColumns = { @JoinColumn(name = "producto_id") }, inverseJoinColumns = {
       @JoinColumn(name = "presentacion_id") })
-  @JsonIgnore
   @Builder.Default
   private Set<Presentacion> presentaciones = new HashSet<>();
   // el builder.default lo tengo que poner porque enrealidad el builder ya me
@@ -81,7 +80,7 @@ public class Producto implements Serializable {
 
   @Override
   public String toString() {
-    return "Tutorial [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
+    return "Producto [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
   }
 
 }

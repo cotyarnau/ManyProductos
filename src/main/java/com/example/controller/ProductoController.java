@@ -51,7 +51,6 @@ public class ProductoController {
   @PostMapping("/productos")
   public ResponseEntity<Producto> createProducto(@RequestBody Producto producto) {
     Producto _producto = productoRepository.save(producto);
-    //  Producto _producto = productoRepository.save(new Producto(producto.getTitle(), producto.getDescription(), true));
     return new ResponseEntity<>(_producto, HttpStatus.CREATED);
   }
 
