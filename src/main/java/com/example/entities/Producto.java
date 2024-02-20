@@ -1,6 +1,7 @@
 package com.example.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +37,6 @@ import lombok.ToString;
 @Table(name = "productos")
 @Getter
 @Setter
-@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -57,10 +57,11 @@ public class Producto implements Serializable {
     @Column(name = "published")
     private boolean published;
 
-    @ManyToMany
-    @JoinTable(name = "producto_presentacion", joinColumns = @JoinColumn(name = "producto_id"), inverseJoinColumns = @JoinColumn(name = "presentacion_id"))
-    @JsonIgnore
-    private Set<Presentacion> presentaciones;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+  @JoinTable(name = "producto_presentacion", joinColumns = { @JoinColumn(name = "producto_id") }, inverseJoinColumns = {
+      @JoinColumn(name = "presentacion_id") })
+      @Builder.Default
+  private Set<Presentacion> presentaciones = new HashSet<>();
 
 
     public void addPresentacion(Presentacion presentacion) {

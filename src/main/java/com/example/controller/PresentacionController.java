@@ -1,8 +1,9 @@
 package com.example.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,8 @@ public class PresentacionController {
   private final PresentacionRepository presentacionRepository;
 
   @GetMapping("/presentaciones")
-  public ResponseEntity<List<Presentacion>> getAllTags() {
-    List<Presentacion> presentaciones = new ArrayList<>();
+  public ResponseEntity<Set<Presentacion>> getAllTags() {
+   Set<Presentacion> presentaciones = new HashSet<>();;
 
     presentacionRepository.findAll().forEach(presentaciones::add);
 
@@ -42,14 +43,15 @@ public class PresentacionController {
   }
   
   @GetMapping("/productos/{productoId}/presentaciones")
-  public ResponseEntity<List<Presentacion>> getAllPresentacionesByProductoslId(@PathVariable(value = "presentacionId") int presentacionId) {
-    if (!presentacionRepository.existsById(presentacionId)) {
-      throw new ResourceNotFoundException("Not found Producto with id = " + presentacionId);
+  public ResponseEntity<Set<Presentacion>> getAllPresentacionesByProductosId(@PathVariable(value = "productoId") int productoId) {
+    if (!productoRepository.existsById(productoId)) {
+      throw new ResourceNotFoundException("Not found Producto with id = " + productoId);
     }
 
-    List<Presentacion> presentaciones = presentacionRepository.findPresentacionesByProductosId(presentacionId);
+    Set<Presentacion> presentaciones = presentacionRepository.findPresentacionesByProductosId(productoId);
     return new ResponseEntity<>(presentaciones, HttpStatus.OK);
   }
+
 
   @GetMapping("/presentaciones/{id}")
   public ResponseEntity<Presentacion> getPresentacionById(@PathVariable(value = "id") int id) {
@@ -60,15 +62,15 @@ public class PresentacionController {
   }
   
   @GetMapping("/presentaciones/{presentacionId}/productos")
-  public ResponseEntity<List<Producto>> getAllProductosByPresentacionId(@PathVariable(value = "presentacionId") int presentacionId) {
+  public ResponseEntity<List<Producto>> getAllProductosByPresentacionesId(@PathVariable(value = "presentacionId") int presentacionId) {
     if (!presentacionRepository.existsById(presentacionId)) {
       throw new ResourceNotFoundException("Not found Tag  with id = " + presentacionId);
     }
 
-    List<Producto> productos = productoRepository.findProductosByPresentacionId(presentacionId);
+    List<Producto> productos = productoRepository.findProductosByPresentacionesId(presentacionId);
     return new ResponseEntity<>(productos, HttpStatus.OK);
   }
-
+    
   @PostMapping("/productos/{productoId}/presentaciones")
   public ResponseEntity<Presentacion> addPresentacion(@PathVariable(value = "productoId") int productoId, @RequestBody Presentacion presentacionRequest) {
     Presentacion presentacion = productoRepository.findById(productoId).map(producto -> {
@@ -91,6 +93,7 @@ public class PresentacionController {
     return new ResponseEntity<>(presentacion, HttpStatus.CREATED);
   }
 
+
   @PutMapping("/presentaciones/{id}")
   public ResponseEntity<Presentacion> updatePresentacion(@PathVariable("id") int id, @RequestBody Presentacion presentacionRequest) {
     Presentacion presentacion = presentacionRepository.findById(id)
@@ -112,8 +115,8 @@ public class PresentacionController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
   
-  @DeleteMapping("/tags/{id}")
-  public ResponseEntity<HttpStatus> deleteTag(@PathVariable("id") int id) {
+  @DeleteMapping("/presentaciones/{id}")
+  public ResponseEntity<HttpStatus> deletePresentacion(@PathVariable("id") int id) {
     presentacionRepository.deleteById(id);
 
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);

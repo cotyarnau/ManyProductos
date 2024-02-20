@@ -2,7 +2,7 @@ package com.example.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +24,7 @@ public class ProductoController {
  
     private final ProductoRepository productoRepository;
 
-  @GetMapping("/tutorials")
+  @GetMapping("/productos")
   public ResponseEntity<List<Producto>> getAllProductos(@RequestParam(required = false) String title) {
     List<Producto> productos = new ArrayList<>();
 
@@ -40,17 +40,6 @@ public class ProductoController {
     return new ResponseEntity<>(productos, HttpStatus.OK);
   }
 
-//   if (title == null)
-//   tutorialRepository.findAll().forEach(tutorials::add);
-// else
-//   tutorialRepository.findByTitleContaining(title).forEach(tutorials::add);
-
-// if (tutorials.isEmpty()) {
-//   return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-// }
-
-// return new ResponseEntity<>(tutorials, HttpStatus.OK);
-// }
   @GetMapping("/productos/{id}")
   public ResponseEntity<Producto> getProductoById(@PathVariable("id") int id) {
     Producto producto = productoRepository.findById(id)
@@ -60,14 +49,14 @@ public class ProductoController {
   }
 
   @PostMapping("/productos")
-  public ResponseEntity<Producto> createTutorial(@RequestBody Producto producto) {
+  public ResponseEntity<Producto> createProducto(@RequestBody Producto producto) {
     Producto _producto = productoRepository.save(producto);
     //  Producto _producto = productoRepository.save(new Producto(producto.getTitle(), producto.getDescription(), true));
     return new ResponseEntity<>(_producto, HttpStatus.CREATED);
   }
 
-  @PutMapping("/tutorials/{id}")
-  public ResponseEntity<Producto> updateTutorial(@PathVariable("id") int id, @RequestBody Producto producto) {
+  @PutMapping("/productos/{id}")
+  public ResponseEntity<Producto> updateProducto(@PathVariable("id") int id, @RequestBody Producto producto) {
     Producto _producto = productoRepository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Not found Tutorial with id = " + id));
 
@@ -78,21 +67,21 @@ public class ProductoController {
     return new ResponseEntity<>(productoRepository.save(_producto), HttpStatus.OK);
   }
 
-  @DeleteMapping("/tutorials/{id}")
-  public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") int id) {
+  @DeleteMapping("/productos/{id}")
+  public ResponseEntity<HttpStatus> deleteProducto(@PathVariable("id") int id) {
     productoRepository.deleteById(id);
     
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
-  @DeleteMapping("/tutorials")
-  public ResponseEntity<HttpStatus> deleteAllTutorials() {
+  @DeleteMapping("/productos")
+  public ResponseEntity<HttpStatus> deleteAllProductos() {
     productoRepository.deleteAll();
     
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
-  @GetMapping("/tutorials/published")
+  @GetMapping("/productos/published")
   public ResponseEntity<List<Producto>> findByPublished() {
     List<Producto> productos = productoRepository.findByPublished(true);
 

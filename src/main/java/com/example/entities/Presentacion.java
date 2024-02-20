@@ -1,6 +1,7 @@
 package com.example.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,8 +27,6 @@ import lombok.ToString;
 @Table(name = "presentaciones")
 @Getter
 @Setter
-@ToString
-@EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -46,7 +45,7 @@ public class Presentacion implements Serializable{
           CascadeType.MERGE
       },mappedBy = "presentaciones")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Set<Producto> productos;
+    private Set<Producto> productos = new HashSet<>();
 
     public Set<Producto> getProductos() {
         return productos;
