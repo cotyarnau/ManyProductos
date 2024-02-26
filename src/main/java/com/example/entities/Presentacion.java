@@ -42,8 +42,7 @@ public class Presentacion implements Serializable{
 
     @ManyToMany(fetch = FetchType.LAZY,
       cascade = {
-          CascadeType.PERSIST,
-          CascadeType.MERGE
+          CascadeType.ALL
       },mappedBy = "presentaciones")
       @JsonIgnore
       @Builder.Default

@@ -56,7 +56,7 @@ public class Producto implements Serializable {
   @Column(name = "published")
   private boolean published;
 
-  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
   @JoinTable(name = "producto_presentacion", joinColumns = { @JoinColumn(name = "producto_id") }, inverseJoinColumns = {
       @JoinColumn(name = "presentacion_id") })
   @Builder.Default
