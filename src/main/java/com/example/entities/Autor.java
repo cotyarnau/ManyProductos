@@ -49,26 +49,21 @@ public class Autor implements Serializable {
   private String nombre;
 
  
+  @ManyToMany(fetch = FetchType.LAZY,
+      cascade = {
+          CascadeType.ALL
+      },mappedBy = "autores")
+      @JsonIgnore
+      @Builder.Default
+    private Set<Libro> libros = new HashSet<>();
 
-  @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-  @JoinTable(name = "autor_libro", joinColumns = { @JoinColumn(name = "autor_id") }, inverseJoinColumns = {
-      @JoinColumn(name = "libro_id") })
-  @Builder.Default
-  private Set<Libro> libros = new HashSet<>();
-  
-  public void addLibro(Libro libro) {
-    this.libros.add(libro);
-    libro.getAutores().add(this);
-  }
-
-  public void removeAutor(int libroId) {
-    Libro libro = this.libros.stream().filter(t -> t.getId() == libroId).findFirst()
-        .orElse(null);
-    if (libro != null) {
-      this.libros.remove(libro);
-      libro.getAutores().remove(this);
-    }
-  }
+    public Set<Libro> getLibros() {
+        return libros;
+      }
+    
+      public void setLibros(Set<Libro> libros) {
+        this.libros = libros;
+      }   
 
  
 

@@ -1,9 +1,11 @@
 package com.example.helpers;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.cglib.core.Local;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,42 +18,38 @@ import com.example.entities.Autor;
 public class LoadSampleData {
 
     @Bean
-    public CommandLineRunner saveSampleData(AutorDao productoRepository,
-            LibroDao presentacionRepository) {
+    public CommandLineRunner saveSampleData(AutorDao autorDao,
+            LibroDao libroDao) {
 
         return datos -> {
-            Libro presentacion1 = Libro.builder()
-                    .name("pares")
-                    .description("productos de pares")
+            Libro libro1 = Libro.builder()
+                    .titulo("Romeo y Julieta")
+                    .fechaPublicacion(LocalDate.of(1597, 3, 01))
                     .build();
 
-            Libro presentacion2 = Libro.builder()
-                    .name("cincuenta")
-                    .description("productos de a cincuenta")
+            Libro libro2 = Libro.builder()
+                    .titulo("Cien años de Soledad")
+                    .fechaPublicacion(LocalDate.of(1967, 5, 27))
                     .build();
 
-            Autor producto1 = Autor.builder()
-                    .title("falda")
-                    .description("algodon")
-                    .published(true)
+            Autor autor1 = Autor.builder()
+                    .nombre("William Shakespeare")
                     .build();
 
-            Autor producto2 = Autor.builder()
-                    .title("camiseta")
-                    .description("algodon")
-                    .published(true)
+            Autor autor2 = Autor.builder()
+                    .nombre("Gabriel Garcia Marquez")
                     .build();
 
                     
-                    producto1.addPresentacion(presentacion1);
-                    producto1.addPresentacion(presentacion2);
-                    producto2.addPresentacion(presentacion1);
-                    producto2.addPresentacion(presentacion2);
+                    libro1.addAutor(autor1);
+                    libro1.addAutor(autor2);
+                    libro2.addAutor(autor1);
+                    libro2.addAutor(autor2);
 
 
                     
-                    productoRepository.save(producto1);
-                    productoRepository.save(producto2);
+                    libroDao.save(libro1);
+                    libroDao.save(libro2);
                 
                     
         };
