@@ -107,6 +107,20 @@ public class LibroController {
         return new ResponseEntity<>(nuevoAutor, HttpStatus.CREATED);
     }
 
+    // Metodo que actualiza un libro por su id
+    @PutMapping("/{id}")
+    public ResponseEntity<Libro> updateLibro(@PathVariable("id") int id, @RequestBody Libro libroRequest) {
+        Libro libro = libroService.findById(id);
+        if (libro == null) {
+            throw new ResourceNotFoundException("Libro con id  " + id + "no encontrado");
+
+        }
+        libro.setTitulo(libroRequest.getTitulo());
+        libro.setFechaPublicacion(libroRequest.getFechaPublicacion());
+
+        return new ResponseEntity<>(libroService.save(libro), HttpStatus.OK);
+    }
+
     // Metodo para eliminar un libro de un autor
     @DeleteMapping("{libroId}/autores/{autorId}")
     public ResponseEntity<HttpStatus> deleteLibroFromAutor(@PathVariable(value = "libroId") int libroId,
