@@ -32,4 +32,24 @@ public class LibroServiceImpl implements LibroService{
         return libroDao.findById(libroId);
     }
 
+    @Override
+    public Libro save(Libro libro) {
+        return libroDao.save(libro);
+    }
+
+    @Override
+    public void deleteById(int libroId) {
+        libroDao.deleteById(libroId);
+    }
+
+    @Override
+    public boolean existsById(int id) {
+        return libroDao.existsById(id);
+    }
+
+    @Override
+    public List<Libro> findLibrosByAutoresId(int autorId) {
+        return libroDao.findLibrosByAutoresId(autorId);
+    }
+
 }

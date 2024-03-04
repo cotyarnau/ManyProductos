@@ -13,18 +13,16 @@ public interface LibroDao extends JpaRepository<Libro, Integer> {
     // List<Libro> findPresentacionesByProductosId(int productoId);
     List<Libro> findLibrosByAutoresId(int autorId);
 
-      // metodo para recuperar libros paginados
-      @Query(value = "SELECT l FROM Libro l LEFT JOIN FETCH l.autores", 
-      countQuery = "SELECT COUNT(l) FROM Libro l")      
-      public Page<Libro> findAll(Pageable pageable);
-  
-      // recuperar attendees ordenados sin paginacion
-      public List<Libro> findAllByOrderByTitulo(); 
+    // metodo para recuperar libros paginados
+    @Query(value = "SELECT l FROM Libro l LEFT JOIN FETCH l.autores", countQuery = "SELECT COUNT(l) FROM Libro l")
+    public Page<Libro> findAll(Pageable pageable);
 
-      // recuperar libro por Id
-      public Libro findById(int id);
-  
-  
-      
-  
+    // recuperar attendees ordenados sin paginacion
+    public List<Libro> findAllByOrderByTitulo();
+
+    // recuperar libro por Id
+    public Libro findById(int id);
+
+    public void delete(Libro libro);
+
 }
