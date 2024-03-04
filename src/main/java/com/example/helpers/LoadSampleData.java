@@ -7,36 +7,36 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.example.Repository.PresentacionRepository;
-import com.example.Repository.ProductoRepository;
-import com.example.entities.Presentacion;
-import com.example.entities.Producto;
+import com.example.entities.Libro;
+import com.example.dao.LibroDao;
+import com.example.dao.AutorDao;
+import com.example.entities.Autor;
 
 @Configuration
 public class LoadSampleData {
 
     @Bean
-    public CommandLineRunner saveSampleData(ProductoRepository productoRepository,
-            PresentacionRepository presentacionRepository) {
+    public CommandLineRunner saveSampleData(AutorDao productoRepository,
+            LibroDao presentacionRepository) {
 
         return datos -> {
-            Presentacion presentacion1 = Presentacion.builder()
+            Libro presentacion1 = Libro.builder()
                     .name("pares")
                     .description("productos de pares")
                     .build();
 
-            Presentacion presentacion2 = Presentacion.builder()
+            Libro presentacion2 = Libro.builder()
                     .name("cincuenta")
                     .description("productos de a cincuenta")
                     .build();
 
-            Producto producto1 = Producto.builder()
+            Autor producto1 = Autor.builder()
                     .title("falda")
                     .description("algodon")
                     .published(true)
                     .build();
 
-            Producto producto2 = Producto.builder()
+            Autor producto2 = Autor.builder()
                     .title("camiseta")
                     .description("algodon")
                     .published(true)

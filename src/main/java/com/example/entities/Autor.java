@@ -33,54 +33,43 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "productos")
+@Table(name = "autores")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Producto implements Serializable {
+public class Autor implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
+  private String nombre;
 
-  @Column(name = "title")
-  private String title;
-
-  @Column(name = "description")
-  private String description;
-
-  @Column(name = "published")
-  private boolean published;
+ 
 
   @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-  @JoinTable(name = "producto_presentacion", joinColumns = { @JoinColumn(name = "producto_id") }, inverseJoinColumns = {
-      @JoinColumn(name = "presentacion_id") })
+  @JoinTable(name = "autor_libro", joinColumns = { @JoinColumn(name = "autor_id") }, inverseJoinColumns = {
+      @JoinColumn(name = "libro_id") })
   @Builder.Default
-  private Set<Presentacion> presentaciones = new HashSet<>();
-  // el builder.default lo tengo que poner porque enrealidad el builder ya me
-  // inicializaba el set , lista o mapa
-
-  public void addPresentacion(Presentacion presentacion) {
-    this.presentaciones.add(presentacion);
-    presentacion.getProductos().add(this);
+  private Set<Libro> libros = new HashSet<>();
+  
+  public void addLibro(Libro libro) {
+    this.libros.add(libro);
+    libro.getAutores().add(this);
   }
 
-  public void removePresentacion(int presentacionId) {
-    Presentacion presentacion = this.presentaciones.stream().filter(t -> t.getId() == presentacionId).findFirst()
+  public void removeAutor(int libroId) {
+    Libro libro = this.libros.stream().filter(t -> t.getId() == libroId).findFirst()
         .orElse(null);
-    if (presentacion != null) {
-      this.presentaciones.remove(presentacion);
-      presentacion.getProductos().remove(this);
+    if (libro != null) {
+      this.libros.remove(libro);
+      libro.getAutores().remove(this);
     }
   }
 
-  @Override
-  public String toString() {
-    return "Producto [id=" + id + ", title=" + title + ", desc=" + description + ", published=" + published + "]";
-  }
+ 
 
 }
